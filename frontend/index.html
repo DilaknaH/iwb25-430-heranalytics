@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
     <title>Eco-AI Agent</title>
@@ -15,11 +15,28 @@
         
         <button type="submit">Calculate Footprint</button>
     </form>
+
     <div id="result"></div>
-    <script src="script.js"></script>
+
+    <script>
+        document.getElementById("carbonForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // Get input values
+            let carKm = parseFloat(document.getElementById("carDistance").value);
+            let electricity = parseFloat(document.getElementById("electricity").value);
+
+            // Simple CO2 factors (you can refine later)
+            let carEmission = carKm * 0.12; // 0.12 kg CO₂ per km (example)
+            let electricityEmission = electricity * 0.4; // 0.4 kg CO₂ per kWh (example)
+
+            let total = (carEmission + electricityEmission).toFixed(2);
+
+            // Show output
+            document.getElementById("result").innerHTML = 
+                `<h3>🌍 Your Estimated Carbon Footprint: ${total} kg CO₂</h3>`;
+        });
+    </script>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> e3810cab8cc6cd5bb5e312f1d67107d0d4fe79ce
+
