@@ -1,4 +1,4 @@
- **Eco AI Agent** 🤖🌿
+**Eco AI Agent** 🤖🌿
 
 A Ballerina-powered Slack bot that provides personalized, AI-generated eco-friendly advice and carbon footprint insights directly within your Slack workspace.
 
