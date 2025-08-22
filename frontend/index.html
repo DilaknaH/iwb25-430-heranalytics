@@ -10,23 +10,10 @@
             font-family: Arial, sans-serif;
             color: white;
             text-align: center;
-        }
 
-        /* Background video styling */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .video-background video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            /* Background image styling */
+            background: url("background.jpg") no-repeat center center fixed;
+            background-size: cover;
         }
 
         /* Content styling */
@@ -59,34 +46,27 @@
     </style>
 </head>
 <body>
-    <!-- Background video -->
-    <div class="video-background">
-        <video autoplay muted loop>
-            <source src="https://www.pexels.com/video/digital-presentation-of-data-and-information-3130284/" type="video/mp4">
-        </video>
-    </div>
-
     <!-- Foreground content -->
     <div class="content">
         <h1>🌱 Eco-AI Agent</h1>
         <form id="carbonForm">
             <label>🚗 Daily Car Distance (km):</label>
-            <input type="number" id="carDistance" required><br>
+            <input type="number" id="carDistance"><br>
 
             <label>💡 Monthly Electricity (kWh):</label>
-            <input type="number" id="electricity" required><br>
+            <input type="number" id="electricity"><br>
 
             <label>✈️ Flights per Year (short-haul):</label>
-            <input type="number" id="flights" required><br>
+            <input type="number" id="flights"><br>
 
             <label>🍖 Weekly Meat Consumption (kg):</label>
-            <input type="number" id="meat" required><br>
+            <input type="number" id="meat"><br>
 
             <label>🔥 Monthly Gas Usage (kWh):</label>
-            <input type="number" id="gas" required><br>
+            <input type="number" id="gas"><br>
 
             <label>🛒 Monthly Shopping Spend ($):</label>
-            <input type="number" id="shopping" required><br><br>
+            <input type="number" id="shopping"><br><br>
             
             <button type="submit">Calculate Footprint</button>
         </form>
@@ -97,29 +77,64 @@
         document.getElementById("carbonForm").addEventListener("submit", function(e) {
             e.preventDefault();
 
-            // Get input values
-            let carKm = parseFloat(document.getElementById("carDistance").value);
-            let electricity = parseFloat(document.getElementById("electricity").value);
-            let flights = parseFloat(document.getElementById("flights").value);
-            let meat = parseFloat(document.getElementById("meat").value);
-            let gas = parseFloat(document.getElementById("gas").value);
-            let shopping = parseFloat(document.getElementById("shopping").value);
+            // Get input values (default to 0 if empty)
+            let carKm = parseFloat(document.getElementById("carDistance").value) || 0;
+            let electricity = parseFloat(document.getElementById("electricity").value) || 0;
+            let flights = parseFloat(document.getElementById("flights").value) || 0;
+            let meat = parseFloat(document.getElementById("meat").value) || 0;
+            let gas = parseFloat(document.getElementById("gas").value) || 0;
+            let shopping = parseFloat(document.getElementById("shopping").value) || 0;
 
             // Example CO₂ emission factors
-            let carEmission = carKm * 0.12;             // kg CO₂/km
-            let electricityEmission = electricity * 0.4; // kg CO₂/kWh
-            let flightEmission = flights * 250;         // avg 250 kg CO₂ per short-haul flight
-            let meatEmission = meat * 27;               // 27 kg CO₂ per kg beef
-            let gasEmission = gas * 0.2;                // 0.2 kg CO₂ per kWh gas
-            let shoppingEmission = shopping * 0.1;      // 0.1 kg CO₂ per $ spent
+            let carEmission = carKm * 0.12;             
+            let electricityEmission = electricity * 0.4; 
+            let flightEmission = flights * 250;         
+            let meatEmission = meat * 27;               
+            let gasEmission = gas * 0.2;                
+            let shoppingEmission = shopping * 0.1;      
 
             // Total footprint
             let total = (carEmission + electricityEmission + flightEmission + meatEmission + gasEmission + shoppingEmission).toFixed(2);
 
+            // Find the largest contributor
+            let emissions = {
+                "car": carEmission,
+                "electricity": electricityEmission,
+                "flights": flightEmission,
+                "meat": meatEmission,
+                "gas": gasEmission,
+                "shopping": shoppingEmission
+            };
+
+            let maxSource = Object.keys(emissions).reduce((a, b) => emissions[a] > emissions[b] ? a : b);
+
+            // Generate relevant tip
+            let tip = "";
+            switch(maxSource) {
+                case "car":
+                    tip = "💡 Tip: Reduce car travel or switch to public transport/electric vehicles!";
+                    break;
+                case "electricity":
+                    tip = "💡 Tip: Save energy with LED bulbs, efficient appliances, and renewable sources!";
+                    break;
+                case "flights":
+                    tip = "💡 Tip: Cut down on flights or choose train travel for lower emissions!";
+                    break;
+                case "meat":
+                    tip = "💡 Tip: Try reducing meat consumption and include more plant-based meals!";
+                    break;
+                case "gas":
+                    tip = "💡 Tip: Improve insulation or switch to renewable heating to cut gas use!";
+                    break;
+                case "shopping":
+                    tip = "💡 Tip: Reduce unnecessary shopping and buy sustainable products!";
+                    break;
+            }
+
             // Show output
             document.getElementById("result").innerHTML = 
                 `<h3>🌍 Your Estimated Carbon Footprint: ${total} kg CO₂</h3>
-                 <p>💡 Tip: Reduce flights & meat consumption for biggest impact!</p>`;
+                 <p>${tip}</p>`;
         });
     </script>
 </body>
