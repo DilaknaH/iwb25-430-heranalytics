@@ -1,95 +1,103 @@
-**Eco AI Agent** 🤖🌿
+Eco AI Agent 🤖🌿
 
-A Ballerina-powered Slack bot that provides personalized, AI-generated eco-friendly advice and carbon footprint insights directly within your Slack workspace.
+A web-based Eco-AI Agent that calculates your personal carbon footprint and provides AI-generated, eco-friendly suggestions. Built with HTML, CSS, JavaScript, and a Ballerina backend for robust calculations.
 
-🚀 **Features**
+🚀 Features
 
-- Get instant eco-friendly tips via a simple Slack slash command (`/eco-advice`).
-- Leverages OpenAI's powerful AI to generate context-aware, practical suggestions.
-- Built with Ballerina for robust and efficient integration handling.
+Input your daily/weekly environmental habits (car travel, electricity, flights, meat consumption, gas usage, shopping) to calculate your carbon footprint.
 
-📋 **Prerequisites**
+Provides personalized suggestions to reduce emissions based on your highest-impact activities.
 
-Before you begin, ensure you have the following:
+Smooth landing screen with gradient and background image overlay.
 
-1.  Ballerina Swan Lake: Install the [Ballerina](https://ballerina.io/downloads/) programming language.
-2.  A Slack Workspace: where you have permission to install apps.
-3.  An OpenAI Account to generate an API key.
+Ballerina backend integration for accurate carbon footprint calculations, with fallback client-side calculation if the backend is unavailable.
 
- ⚙️ **Setup Instructions**
+Responsive design for mobile and desktop devices.
 
-1. **Configure Your Slack App**
+📋 Prerequisites
 
-1.  Go to [api.slack.com/apps](https://api.slack.com/apps) and click **"Create New App"**.
-2.  Choose **"From scratch"**, give your app a name (e.g., `Eco AI Agent`), and select your development workspace.
-3.  In the left sidebar, navigate to **"Slash Commands"** and click **"Create New Command"**.
-4.  Fill out the form as follows:
-    - **Command:** `/eco-advice`
-    - **Request URL:** `https://your-server-url.xyz/slack/eco-advice` (We will update this later after deployment. For local testing, you can use a tool like [ngrok](https://ngrok.com/).)
-    - **Short Description:** `Get AI-powered eco-friendly advice`
-    - **Usage Hint:** `[Ask your question, e.g., how to reduce plastic?]`
-5.  Click **"Save"**.
+Ballerina Swan Lake: Install the Ballerina
+ programming language.
 
- 2. **Get Your OpenAI API Key**
+Web Browser: Chrome, Edge, or Firefox for testing the web app.
 
-1.  Go to [platform.openai.com/api-keys](https://platform.openai.com/api-keys).
-2.  Sign in to your account.
-3.  Click **"Create new secret key"**.
-4.  Give it a name (e.g., `Slack-Eco-Bot`) and click **"Create secret key"**.
-5.  **Copy the key immediately** and store it securely. You won't be able to see it again.
+Optional: OpenAI API key if extending the app for AI-powered advice.
 
- 3. **Install and Configure the Project**
+⚙️ Setup Instructions
+1. Clone the Repository
+git clone https://github.com/DilaknaH/Eco-Ai-Agent.git
+cd Eco-Ai-Agent/frontend
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/DilaknaH/Eco-Ai-Agent.git
-    cd Eco-Ai-Agent
-    ```
+2. Run the Frontend
 
-2.  **Install dependencies:**
-    ```bash
-    bal install
-    ```
+You can open the index.html file directly in a web browser for testing.
 
-3.  **Configure environment variables:**
-    - Locate the `Config.toml` file in the project root.
-    - Open it and fill in the credentials you obtained from the previous steps:
+3. Run the Ballerina Backend (Optional)
 
-    ```toml
-    # Config.toml
-    # Slack App Credentials (from "Basic Information" -> "App Credentials")
-    SLACK_VERIFICATION_TOKEN = "your_slack_verification_token_here"
+The app uses a Ballerina backend for calculations. To run:
 
-    # OpenAI API Key
-    OPENAI_API_KEY = "sk-your_openai_secret_key_here"
-    ```
-    *Replace the values in quotes with your actual tokens.*
+cd ../backend
+bal run
 
- 🏃‍♂️**Running the Project**
 
-1.  **Run the Ballerina service:**
-    ```bash
-    bal run
-    ```
-    You should see output indicating the service has started on a port (e.g., `localhost:9090`).
+The backend service runs at http://localhost:9090/ecoai/.
 
-2.  **Set up the Request URL for Slack:**
-    - For local development, you need to expose your `localhost` server to the internet. The easiest way is to use **ngrok**.
-    - Install ngrok and run:
-      ```bash
-      ngrok http 9090
-      ```
-    - Copy the forwarding URL provided by ngrok (e.g., `https://abc123.ngrok.io`).
-    - Go back to your Slack App settings (**Slash Commands** -> **Edit** your `/eco-advice` command).
-    - Paste the ngrok URL into the **"Request URL"** field and append the endpoint path: `https://abc123.ngrok.io/slack/eco-advice`
-    - Click **"Save"**.
+4. Test the App
 
-3.  **Install the App to Your Workspace:**
-    - In your Slack App settings, go to **"Install App"** in the left sidebar.
-    - Click **"Install to Workspace"** and authorize the app.
+Open the web page in a browser.
 
-## 💡 Usage
+Click Start on the landing screen.
 
-Go to any channel or DM in your Slack workspace. Simply type the command:
+Enter your daily/weekly environmental data.
+
+Click Calculate Footprint.
+
+The app will display your total estimated carbon footprint with suggestions.
+
+If the Ballerina backend is offline, a client-side fallback calculation will be used automatically.
+
+🔧 Configuration
+
+If you want to customize the background image, edit the body CSS in style.css:
+
+body {
+    background: linear-gradient(135deg, rgba(11,61,38,0.85) 0%, rgba(26,107,69,0.85) 100%),
+                url("background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+To adjust emission factors or suggestions, modify the JS file main.js:
+
+const carEmission = carKm * 0.12;
+const electricityEmission = electricity * 0.4;
+const flightEmission = flights * 250;
+const meatEmission = meat * 27;
+const gasEmission = gas * 0.2;
+const shoppingEmission = shopping * 0.1;
+
+💡 Usage
+
+Fill in your daily/weekly inputs for car distance, electricity, flights, meat, gas, and shopping.
+
+Click Calculate Footprint.
+
+Review your total carbon footprint and AI-generated suggestions.
+
+Click Reset Form to start over.
+
+🖥️ Responsive Design
+
+Mobile-friendly layout with flexible form elements and buttons.
+
+Transparent content box overlays the background with blur effect for readability.
+
+⚠️ Notes
+
+The Ballerina backend must be running locally at http://localhost:9090/ecoai/ for backend calculations.
+
+If backend is unavailable, the app falls back to client-side calculation automatically.
+
+All animations (fade-in, fade-up) and landing page effects are handled via CSS.
 
 
