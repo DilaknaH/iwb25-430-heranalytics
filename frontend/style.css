@@ -4,13 +4,16 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     text-align: center;
-    background: linear-gradient(135deg, #0b3d26 0%, #1a6b45 100%);
+    /* Background with both image and gradient fallback */
+    background: linear-gradient(135deg, rgba(11, 61, 38, 0.85) 0%, rgba(26, 107, 69, 0.85) 100%), 
+                url("background.jpg") no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden;
+    overflow: hidden; /* changed from auto to hidden for cleaner landing */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 20px 0;
 }
 
 /* Landing screen */
@@ -21,13 +24,13 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     z-index: 3;
 }
 
 .landing h1 {
     font-size: 3em;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     animation: fadeIn 2s ease-in-out;
 }
 
@@ -40,13 +43,16 @@ body {
     color: white;
     cursor: pointer;
     transition: 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .landing button:hover {
     background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Overlay (hidden at first) */
+/* Overlay */
 .overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -55,12 +61,14 @@ body {
     display: none;
 }
 
-/* Main content hidden initially */
+/* Main content */
 .main-content {
     display: none;
     position: relative;
     z-index: 2;
     animation: fadeUp 1.5s ease forwards;
+    width: 100%;
+    max-width: 600px;
 }
 
 .title-top {
@@ -68,6 +76,7 @@ body {
     margin: 10px 0;
     opacity: 0;
     animation: fadeIn 2s ease forwards;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .content {
@@ -77,8 +86,8 @@ body {
     display: inline-block;
     margin-top: 15px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    max-width: 500px;
-    width: 90%;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 input, button {
@@ -115,6 +124,7 @@ label {
 
 #result {
     margin-top: 20px;
+    min-height: 150px;
 }
 
 .loading {
@@ -142,7 +152,7 @@ label {
 }
 
 /* Result styling */
-#result > div {
+.result-container {
     opacity: 0;
     animation: fadeIn 1s ease forwards;
     margin-top: 15px;
@@ -152,26 +162,54 @@ label {
     text-align: center;
 }
 
+.result-container h3 {
+    margin-top: 0;
+    color: #4CAF50;
+}
+
+.button-group {
+    margin-top: 20px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
+    body {
+        display: block;
+        padding: 10px;
+    }
+
     .content {
         width: 85%;
         padding: 15px;
+        margin: 15px auto;
     }
-    
+
     label {
         display: block;
         width: auto;
         text-align: left;
         margin-bottom: 5px;
+        margin-right: 0;
     }
-    
+
     input {
         width: 90%;
+        max-width: 250px;
     }
-    
+
     .title-top {
         font-size: 2em;
+        margin: 15px 0;
+    }
+
+    .landing h1 {
+        font-size: 2.2em;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
