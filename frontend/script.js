@@ -64,3 +64,8 @@ document.getElementById("carbonForm").addEventListener("submit", (e) => {
     // Smooth scroll to result
     resultContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
+
+
+
+
+
