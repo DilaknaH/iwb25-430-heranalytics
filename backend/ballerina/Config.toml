@@ -1,0 +1,13 @@
+﻿[server]
+port = 9090
+
+[database]
+url = "memory"
+
+[emission_factors]
+car_travel = 0.21
+electricity = 0.43
+flights = 0.18
+meat_consumption = 2.5
+gas_usage = 0.2
+shopping = 0.1

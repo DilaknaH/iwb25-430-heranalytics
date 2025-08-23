@@ -92,4 +92,3 @@ Before you begin, ensure you have the following:
 
 Go to any channel or DM in your Slack workspace. Simply type the command:
 
-

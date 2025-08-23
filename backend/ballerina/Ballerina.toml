@@ -1,4 +1,5 @@
-[package]
-org = "DilaknaH"
-name = "eco_ai_agent"
-version = "0.1.0"
+﻿[project]
+org-name = "ecoai"
+version = "1.0.0"
+
+[dependencies]
