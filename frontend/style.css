@@ -4,42 +4,175 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     text-align: center;
-
-    /* Background image styling */
-    background: url("background.jpg") no-repeat center center fixed;
+    background: linear-gradient(135deg, #0b3d26 0%, #1a6b45 100%);
     background-size: cover;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Foreground content styling */
-.content {
-    position: relative;
+/* Landing screen */
+.landing {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
+    z-index: 3;
+}
+
+.landing h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.landing button {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.landing button:hover {
+    background: #45a049;
+}
+
+/* Overlay (hidden at first) */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
     z-index: 1;
-    padding: 40px;
-    background: rgba(0, 0, 0, 0.55); /* transparent dark box */
+    display: none;
+}
+
+/* Main content hidden initially */
+.main-content {
+    display: none;
+    position: relative;
+    z-index: 2;
+    animation: fadeUp 1.5s ease forwards;
+}
+
+.title-top {
+    font-size: 2.5em;
+    margin: 10px 0;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+.content {
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.55);
     border-radius: 15px;
     display: inline-block;
-    margin-top: 5%;
+    margin-top: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
 }
 
-/* Input + button styling */
 input, button {
-    padding: 8px;
+    padding: 10px;
     border-radius: 6px;
     border: none;
-    margin: 6px;
+    margin: 8px;
+    font-size: 1em;
+}
+
+input {
+    width: 200px;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 button {
     background-color: #4CAF50;
     color: white;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s;
+    width: auto;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
+label {
+    display: inline-block;
+    width: 250px;
+    text-align: right;
+    margin-right: 10px;
+}
 
+#result {
+    margin-top: 20px;
+}
+
+.loading {
+    display: none;
+    margin-top: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.ballerina-info {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 0.9em;
+}
+
+/* Result styling */
+#result > div {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .content {
+        width: 85%;
+        padding: 15px;
+    }
+    
+    label {
+        display: block;
+        width: auto;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+    
+    input {
+        width: 90%;
+    }
+    
+    .title-top {
+        font-size: 2em;
+    }
+}
 
 
