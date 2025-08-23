@@ -1,8 +1,7 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
     <title>Eco-AI Agent</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
             margin: 0;
@@ -10,136 +9,320 @@
             font-family: Arial, sans-serif;
             color: white;
             text-align: center;
-
-            /* Background image styling */
-            background: url("background.jpg") no-repeat center center fixed;
+            background: linear-gradient(135deg, #0b3d26 0%, #1a6b45 100%);
             background-size: cover;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        /* Content styling */
-        .content {
-            position: relative;
+        /* Landing screen */
+        .landing {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            z-index: 3;
+        }
+
+        .landing h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .landing button {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .landing button:hover {
+            background: #45a049;
+        }
+
+        /* Overlay (hidden at first) */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.35);
             z-index: 1;
-            padding: 40px;
+            display: none;
+        }
+
+        /* Main content hidden initially */
+        .main-content {
+            display: none;
+            position: relative;
+            z-index: 2;
+            animation: fadeUp 1.5s ease forwards;
+        }
+
+        .title-top {
+            font-size: 2.5em;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+
+        .content {
+            padding: 25px;
             background: rgba(0, 0, 0, 0.55);
             border-radius: 15px;
             display: inline-block;
-            margin-top: 5%;
+            margin-top: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         input, button {
-            padding: 8px;
+            padding: 10px;
             border-radius: 6px;
             border: none;
-            margin: 6px;
+            margin: 8px;
+            font-size: 1em;
+        }
+
+        input {
+            width: 200px;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         button {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         button:hover {
             background-color: #45a049;
         }
+
+        label {
+            display: inline-block;
+            width: 250px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .ballerina-info {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
-    <!-- Foreground content -->
-    <div class="content">
+    <!-- Landing screen -->
+    <div class="landing" id="landing">
         <h1>🌱 Eco-AI Agent</h1>
-        <form id="carbonForm">
-            <label>🚗 Daily Car Distance (km):</label>
-            <input type="number" id="carDistance"><br>
+        <p>Now with Ballerina Backend Integration</p>
+        <button onclick="startApp()">Start</button>
+    </div>
 
-            <label>💡 Monthly Electricity (kWh):</label>
-            <input type="number" id="electricity"><br>
+    <!-- Transparent overlay -->
+    <div class="overlay" id="overlay"></div>
 
-            <label>✈️ Flights per Year (short-haul):</label>
-            <input type="number" id="flights"><br>
+    <!-- Main App -->
+    <div class="main-content" id="mainContent">
+        <h1 class="title-top">🌱 Eco-AI Agent</h1>
+        <div class="content">
+            <form id="carbonForm">
+                <label>🚗 Daily Car Distance (km):</label>
+                <input type="number" id="carDistance" min="0"><br>
 
-            <label>🍖 Weekly Meat Consumption (kg):</label>
-            <input type="number" id="meat"><br>
+                <label>💡 Monthly Electricity (kWh):</label>
+                <input type="number" id="electricity" min="0"><br>
 
-            <label>🔥 Monthly Gas Usage (kWh):</label>
-            <input type="number" id="gas"><br>
+                <label>✈️ Flights per Year (short-haul):</label>
+                <input type="number" id="flights" min="0"><br>
 
-            <label>🛒 Monthly Shopping Spend ($):</label>
-            <input type="number" id="shopping"><br><br>
+                <label>🍖 Weekly Meat Consumption (kg):</label>
+                <input type="number" id="meat" min="0"><br>
+
+                <label>🔥 Monthly Gas Usage (kWh):</label>
+                <input type="number" id="gas" min="0"><br>
+
+                <label>🛒 Monthly Shopping Spend ($):</label>
+                <input type="number" id="shopping" min="0"><br><br>
+                
+                <button type="submit">Calculate Footprint</button>
+            </form>
             
-            <button type="submit">Calculate Footprint</button>
-        </form>
-        <div id="result"></div>
+            <div class="loading" id="loading">
+                <p>Calculating with Ballerina backend... 🌐</p>
+            </div>
+            
+            <div id="result"></div>
+            
+            <div class="ballerina-info">
+                <p>This app now uses a Ballerina backend for carbon footprint calculations</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        document.getElementById("carbonForm").addEventListener("submit", function(e) {
+        function startApp() {
+            document.getElementById("landing").style.display = "none";
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("mainContent").style.display = "block";
+        }
+
+        document.getElementById("carbonForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Get input values (default to 0 if empty)
-            let carKm = parseFloat(document.getElementById("carDistance").value) || 0;
-            let electricity = parseFloat(document.getElementById("electricity").value) || 0;
-            let flights = parseFloat(document.getElementById("flights").value) || 0;
-            let meat = parseFloat(document.getElementById("meat").value) || 0;
-            let gas = parseFloat(document.getElementById("gas").value) || 0;
-            let shopping = parseFloat(document.getElementById("shopping").value) || 0;
+            // Show loading indicator
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("result").innerHTML = "";
 
-            // Example CO₂ emission factors
-            let carEmission = carKm * 0.12;             
-            let electricityEmission = electricity * 0.4; 
-            let flightEmission = flights * 250;         
-            let meatEmission = meat * 27;               
-            let gasEmission = gas * 0.2;                
-            let shoppingEmission = shopping * 0.1;      
+            // Get values (default to 0 if empty)
+            const carKm = parseFloat(document.getElementById("carDistance").value) || 0;
+            const electricity = parseFloat(document.getElementById("electricity").value) || 0;
+            const flights = parseFloat(document.getElementById("flights").value) || 0;
+            const meat = parseFloat(document.getElementById("meat").value) || 0;
+            const gas = parseFloat(document.getElementById("gas").value) || 0;
+            const shopping = parseFloat(document.getElementById("shopping").value) || 0;
 
-            // Total footprint
-            let total = (carEmission + electricityEmission + flightEmission + meatEmission + gasEmission + shoppingEmission).toFixed(2);
+            try {
+                // Send data to Ballerina backend
+                const response = await fetch('http://localhost:9090/ecoai/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        carDistance: carKm,
+                        electricity: electricity,
+                        flights: flights,
+                        meatConsumption: meat,
+                        gasUsage: gas,
+                        shoppingSpend: shopping
+                    })
+                });
 
-            // Find the largest contributor
-            let emissions = {
-                "car": carEmission,
-                "electricity": electricityEmission,
-                "flights": flightEmission,
-                "meat": meatEmission,
-                "gas": gasEmission,
-                "shopping": shoppingEmission
-            };
+                if (!response.ok) {
+                    throw new Error('Ballerina backend not responding. Using fallback calculation.');
+                }
 
-            let maxSource = Object.keys(emissions).reduce((a, b) => emissions[a] > emissions[b] ? a : b);
+                const data = await response.json();
+                
+                // Display results from Ballerina
+                document.getElementById("result").innerHTML = `
+                    <div style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.08); border-radius:10px;">
+                        <h3>🌍 Your Estimated Carbon Footprint: <span style="color:#4CAF50">${data.total.toFixed(2)} kg CO₂</span></h3>
+                        <p>${data.suggestion}</p>
+                        <p><small>Calculated by Ballerina backend</small></p>
+                    </div>
+                `;
+                
+            } catch (error) {
+                // Fallback to client-side calculation if Ballerina backend is unavailable
+                console.error("Ballerina backend error:", error);
+                
+                // Example CO₂ emission factors (fallback)
+                const carEmission = carKm * 0.12;             
+                const electricityEmission = electricity * 0.4; 
+                const flightEmission = flights * 250;         
+                const meatEmission = meat * 27;               
+                const gasEmission = gas * 0.2;                
+                const shoppingEmission = shopping * 0.1;      
 
-            // Generate relevant tip
-            let tip = "";
-            switch(maxSource) {
-                case "car":
-                    tip = "💡 Tip: Reduce car travel or switch to public transport/electric vehicles!";
-                    break;
-                case "electricity":
-                    tip = "💡 Tip: Save energy with LED bulbs, efficient appliances, and renewable sources!";
-                    break;
-                case "flights":
-                    tip = "💡 Tip: Cut down on flights or choose train travel for lower emissions!";
-                    break;
-                case "meat":
-                    tip = "💡 Tip: Try reducing meat consumption and include more plant-based meals!";
-                    break;
-                case "gas":
-                    tip = "💡 Tip: Improve insulation or switch to renewable heating to cut gas use!";
-                    break;
-                case "shopping":
-                    tip = "💡 Tip: Reduce unnecessary shopping and buy sustainable products!";
-                    break;
+                // Total footprint
+                const total = (
+                    carEmission +
+                    electricityEmission +
+                    flightEmission +
+                    meatEmission +
+                    gasEmission +
+                    shoppingEmission
+                ).toFixed(2);
+
+                // Find the largest contributor
+                const emissions = {
+                    car: carEmission,
+                    electricity: electricityEmission,
+                    flights: flightEmission,
+                    meat: meatEmission,
+                    gas: gasEmission,
+                    shopping: shoppingEmission
+                };
+
+                const maxSource = Object.keys(emissions)
+                    .reduce((a, b) => emissions[a] > emissions[b] ? a : b);
+
+                // Generate relevant suggestion
+                let suggestion = "";
+                switch (maxSource) {
+                    case "car":
+                        suggestion = "🚗 Reduce car travel or switch to public transport/electric vehicles!";
+                        break;
+                    case "electricity":
+                        suggestion = "💡 Save energy with LED bulbs, efficient appliances, and renewable sources!";
+                        break;
+                    case "flights":
+                        suggestion = "✈️ Cut down on flights or choose train travel for lower emissions!";
+                        break;
+                    case "meat":
+                        suggestion = "🍃 Try reducing meat consumption and include more plant-based meals!";
+                        break;
+                    case "gas":
+                        suggestion = "🔥 Improve insulation or switch to renewable heating to cut gas use!";
+                        break;
+                    case "shopping":
+                        suggestion = "🛍️ Reduce unnecessary shopping and buy sustainable products!";
+                        break;
+                }
+
+                document.getElementById("result").innerHTML = `
+                    <div style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.08); border-radius:10px;">
+                        <h3>🌍 Your Estimated Carbon Footprint: <span style="color:#4CAF50">${total} kg CO₂</span></h3>
+                        <p>${suggestion}</p>
+                        <p><small>Note: Using client-side calculation (Ballerina backend unavailable)</small></p>
+                    </div>
+                `;
+            } finally {
+                // Hide loading indicator
+                document.getElementById("loading").style.display = "none";
+                
+                // Update background transparency of content box (after form submission)
+                document.querySelector(".content").style.background = "rgba(0, 0, 0, 0.35)";
             }
-
-            // Show output
-            document.getElementById("result").innerHTML = 
-                `<h3>🌍 Your Estimated Carbon Footprint: ${total} kg CO₂</h3>
-                 <p>${tip}</p>`;
         });
     </script>
 </body>
 </html>
-
 
 
 
