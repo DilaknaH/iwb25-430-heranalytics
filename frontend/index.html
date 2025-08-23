@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eco-AI Agent</title>
     <style>
         body {
@@ -9,13 +11,16 @@
             font-family: Arial, sans-serif;
             color: white;
             text-align: center;
-            background: linear-gradient(135deg, #0b3d26 0%, #1a6b45 100%);
+            /* Background with both image and gradient fallback */
+            background: linear-gradient(135deg, rgba(11, 61, 38, 0.85) 0%, rgba(26, 107, 69, 0.85) 100%), 
+                        url("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80") no-repeat center center fixed;
             background-size: cover;
-            overflow: hidden;
+            overflow: auto;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px 0;
         }
 
         /* Landing screen */
@@ -26,14 +31,20 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             z-index: 3;
         }
 
         .landing h1 {
             font-size: 3em;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             animation: fadeIn 2s ease-in-out;
+        }
+
+        .landing p {
+            margin-bottom: 25px;
+            font-size: 1.2em;
+            opacity: 0.9;
         }
 
         .landing button {
@@ -45,10 +56,13 @@
             color: white;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .landing button:hover {
             background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         /* Overlay (hidden at first) */
@@ -66,13 +80,16 @@
             position: relative;
             z-index: 2;
             animation: fadeUp 1.5s ease forwards;
+            width: 100%;
+            max-width: 600px;
         }
 
         .title-top {
             font-size: 2.5em;
-            margin: 10px 0;
+            margin: 10px 0 20px 0;
             opacity: 0;
             animation: fadeIn 2s ease forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .content {
@@ -82,6 +99,11 @@
             display: inline-block;
             margin-top: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 85%;
+            max-width: 500px;
+            margin-bottom: 30px;
         }
 
         input, button {
@@ -102,10 +124,21 @@
             color: white;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: auto;
+            margin-top: 15px;
         }
 
         button:hover {
             background-color: #45a049;
+        }
+
+        .reset-btn {
+            background-color: #f44336;
+            margin-left: 10px;
+        }
+
+        .reset-btn:hover {
+            background-color: #d32f2f;
         }
 
         label {
@@ -117,6 +150,7 @@
 
         #result {
             margin-top: 20px;
+            min-height: 150px;
         }
 
         .loading {
@@ -142,13 +176,99 @@
             border-radius: 10px;
             font-size: 0.9em;
         }
+
+        .backend-status {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .backend-online {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .backend-offline {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        /* Result styling */
+        .result-container {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .result-container h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+                display: block;
+            }
+            
+            .content {
+                width: 85%;
+                padding: 15px;
+                margin: 15px auto;
+            }
+            
+            label {
+                display: block;
+                width: auto;
+                text-align: left;
+                margin-bottom: 5px;
+                margin-right: 0;
+            }
+            
+            input {
+                width: 90%;
+                max-width: 250px;
+            }
+            
+            .title-top {
+                font-size: 2em;
+                margin: 15px 0;
+            }
+            
+            .landing h1 {
+                font-size: 2.2em;
+            }
+            
+            .main-content {
+                padding: 10px;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .reset-btn {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Landing screen -->
     <div class="landing" id="landing">
         <h1>🌱 Eco-AI Agent</h1>
-        <p>Now with Ballerina Backend Integration</p>
         <button onclick="startApp()">Start</button>
     </div>
 
@@ -161,43 +281,98 @@
         <div class="content">
             <form id="carbonForm">
                 <label>🚗 Daily Car Distance (km):</label>
-                <input type="number" id="carDistance" min="0"><br>
+                <input type="number" id="carDistance" min="0" placeholder="Enter distance"><br>
 
                 <label>💡 Monthly Electricity (kWh):</label>
-                <input type="number" id="electricity" min="0"><br>
+                <input type="number" id="electricity" min="0" placeholder="Enter kWh"><br>
 
                 <label>✈️ Flights per Year (short-haul):</label>
-                <input type="number" id="flights" min="0"><br>
+                <input type="number" id="flights" min="0" placeholder="Enter number"><br>
 
                 <label>🍖 Weekly Meat Consumption (kg):</label>
-                <input type="number" id="meat" min="0"><br>
+                <input type="number" id="meat" min="0" placeholder="Enter kg"><br>
 
                 <label>🔥 Monthly Gas Usage (kWh):</label>
-                <input type="number" id="gas" min="0"><br>
+                <input type="number" id="gas" min="0" placeholder="Enter kWh"><br>
 
                 <label>🛒 Monthly Shopping Spend ($):</label>
-                <input type="number" id="shopping" min="0"><br><br>
+                <input type="number" id="shopping" min="0" placeholder="Enter amount"><br><br>
                 
-                <button type="submit">Calculate Footprint</button>
+                <div class="button-group">
+                    <button type="submit">Calculate Footprint</button>
+                    <button type="button" class="reset-btn" onclick="resetForm()">Reset Form</button>
+                </div>
             </form>
             
             <div class="loading" id="loading">
                 <p>Calculating with Ballerina backend... 🌐</p>
             </div>
             
+            <div id="backendStatus" class="backend-status backend-offline">
+                ⚠️ Ballerina backend: Checking connection...
+            </div>
+            
             <div id="result"></div>
             
             <div class="ballerina-info">
-                <p>This app now uses a Ballerina backend for carbon footprint calculations</p>
+                <p>This app uses a Ballerina backend for carbon footprint calculations</p>
             </div>
         </div>
     </div>
 
     <script>
+        // Check backend status when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBackendStatus();
+            // Clear any stored values from previous sessions
+            resetForm();
+        });
+
         function startApp() {
             document.getElementById("landing").style.display = "none";
             document.getElementById("overlay").style.display = "block";
             document.getElementById("mainContent").style.display = "block";
+            // Ensure form is reset when starting
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById("carbonForm").reset();
+            document.getElementById("result").innerHTML = "";
+            document.querySelector(".content").style.background = "rgba(0, 0, 0, 0.55)";
+            
+            // Clear all input fields explicitly
+            document.getElementById("carDistance").value = "";
+            document.getElementById("electricity").value = "";
+            document.getElementById("flights").value = "";
+            document.getElementById("meat").value = "";
+            document.getElementById("gas").value = "";
+            document.getElementById("shopping").value = "";
+        }
+
+        async function checkBackendStatus() {
+            const statusElement = document.getElementById("backendStatus");
+            
+            try {
+                // Try to connect to the Ballerina backend
+                const response = await fetch('http://localhost:9090/ecoai/health', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    statusElement.textContent = "✅ Ballerina backend: Connected and ready";
+                    statusElement.className = "backend-status backend-online";
+                } else {
+                    throw new Error('Backend not responding properly');
+                }
+            } catch (error) {
+                console.error("Ballerina backend health check failed:", error);
+                statusElement.textContent = "⚠️ Ballerina backend: Not available (using fallback)";
+                statusElement.className = "backend-status backend-offline";
+            }
         }
 
         document.getElementById("carbonForm").addEventListener("submit", async (e) => {
@@ -240,8 +415,8 @@
                 
                 // Display results from Ballerina
                 document.getElementById("result").innerHTML = `
-                    <div style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.08); border-radius:10px;">
-                        <h3>🌍 Your Estimated Carbon Footprint: <span style="color:#4CAF50">${data.total.toFixed(2)} kg CO₂</span></h3>
+                    <div class="result-container">
+                        <h3>🌍 Your Estimated Carbon Footprint: ${data.total.toFixed(2)} kg CO₂</h3>
                         <p>${data.suggestion}</p>
                         <p><small>Calculated by Ballerina backend</small></p>
                     </div>
@@ -306,10 +481,10 @@
                 }
 
                 document.getElementById("result").innerHTML = `
-                    <div style="margin-top:15px; padding:15px; background:rgba(255,255,255,0.08); border-radius:10px;">
-                        <h3>🌍 Your Estimated Carbon Footprint: <span style="color:#4CAF50">${total} kg CO₂</span></h3>
+                    <div class="result-container">
+                        <h3>🌍 Your Estimated Carbon Footprint: ${total} kg CO₂</h3>
                         <p>${suggestion}</p>
-                        <p><small>Note: Using client-side calculation (Ballerina backend unavailable)</small></p>
+                        <p><small>Note: Using client-side calculation (Ballerina backend temporarily unavailable)</small></p>
                     </div>
                 `;
             } finally {
@@ -318,11 +493,13 @@
                 
                 // Update background transparency of content box (after form submission)
                 document.querySelector(".content").style.background = "rgba(0, 0, 0, 0.35)";
+                
+                // Scroll to results to ensure they're visible
+                document.getElementById("result").scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
     </script>
 </body>
 </html>
-
 
 
