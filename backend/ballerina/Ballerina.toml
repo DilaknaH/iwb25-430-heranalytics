@@ -1,5 +1,4 @@
-﻿[project]
-org-name = "ecoai"
-version = "1.0.0"
-
-[dependencies]
+[package]
+org = "dilakna_godagamage"
+name = "ballerina"
+version = "0.1.0"

@@ -1,16 +1,78 @@
-﻿import ballerina/http;
-import ballerina/log;
-import ballerina/jsonutils;
+import ballerina/http;
+import ballerina/time;
 
-service / on new http:Listener(9090) {
-    resource function get .() returns string {
-        return "✅ Eco AI Agent Backend is running!";
+// Helper function to extract decimal values from JSON
+function extractDecimalValue(json data, string fieldName) returns decimal {
+    if data is map<json> {
+        json? value = data[fieldName];
+        if value is decimal {
+            return value;
+        } else if value is int {
+            return <decimal>value;
+        } else if value is float {
+            return <decimal>value;
+        }
     }
+    return 0.0d;
+}
 
+// Carbon footprint calculation function
+function calculateCarbonFootprint(decimal electricity, decimal gas, decimal carTravel, 
+                                 decimal flightDistance, decimal meatConsumption, decimal shopping) returns decimal {
+    decimal electricityFactor = 0.43d;
+    decimal gasFactor = 0.2d;
+    decimal carFactor = 0.21d;
+    decimal flightFactor = 0.18d;
+    decimal meatFactor = 2.5d;
+    decimal shoppingFactor = 0.1d;
+    
+    return (electricity * electricityFactor) +
+           (gas * gasFactor) +
+           (carTravel * carFactor) +
+           (flightDistance * flightFactor) +
+           (meatConsumption * meatFactor) +
+           (shopping * shoppingFactor);
+}
+
+// Generate suggestions
+function generateSuggestions(decimal carTravelVal, decimal electricityVal, 
+                            decimal flightDistVal, decimal meatVal) returns string[] {
+    string[] suggestions = [];
+    
+    if (carTravelVal > 100.0d) {
+        suggestions.push("Use public transportation or carpooling");
+    }
+    if (electricityVal > 200.0d) {
+        suggestions.push("Switch to energy-efficient appliances");
+    }
+    if (flightDistVal > 0.0d) {
+        suggestions.push("Consider video conferencing instead of flights");
+    }
+    if (meatVal > 5.0d) {
+        suggestions.push("Reduce meat consumption");
+    }
+    
+    if (suggestions.length() == 0) {
+        suggestions.push("Great job! Your carbon footprint is relatively low");
+    }
+    
+    return suggestions;
+}
+
+// HTTP listener configuration
+listener http:Listener ecoListener = new (9091);
+
+// Main service
+service / on ecoListener {
+    
+    resource function get root() returns string {
+        return "✅ Eco AI Agent Running!";
+    }
+    
     resource function get health() returns json {
         return { 
             status: "healthy", 
-            service: "carbon-footprint",
+            serviceName: "carbon-footprint",
             version: "1.0.0"
         };
     }
@@ -22,63 +84,40 @@ service / on new http:Listener(9090) {
         };
     }
 
-    resource function post carbon-footprint(@http:Payload json data) returns json|error {
-        decimal meet = check data.meet ?: 0;
-        decimal gas = check data.gas ?: 0;
-        decimal shopping = check data.shopping ?: 0;
-        decimal carTravel = check data.carTravel ?: 0;
-        decimal electricity = check data.electricity ?: 0;
-        decimal flights = check data.flights ?: 0;
+    // Carbon footprint calculation endpoint - FIXED: No hyphens in function name
+    resource function post carbonFootprint(@http:Payload json data) returns json|error {
+        decimal electricityVal = extractDecimalValue(data, "electricity");
+        decimal gasVal = extractDecimalValue(data, "gas");
+        decimal carTravelVal = extractDecimalValue(data, "carTravel");
+        decimal flightDistVal = extractDecimalValue(data, "flights");
+        decimal meatVal = extractDecimalValue(data, "meat");
+        decimal shoppingVal = extractDecimalValue(data, "shopping");
         
-        // Calculate footprint
-        decimal footprint = (meet * 2.5) + (gas * 0.2) + (shopping * 0.1) +
-                           (carTravel * 0.21) + (electricity * 0.43) + (flights * 0.18);
-        
-        // Generate suggestions based on highest impact
-        string[] suggestions = [];
-        if (carTravel > 100) {
-            suggestions.push("Consider public transportation or carpooling to reduce car travel emissions");
-        }
-        if (electricity > 200) {
-            suggestions.push("Switch to energy-efficient appliances and LED lighting");
-        }
-        if (flights > 0) {
-            suggestions.push("Consider video conferencing instead of short-haul flights");
-        }
-        if (meet > 5) {
-            suggestions.push("Reduce meat consumption and incorporate plant-based meals");
-        }
+        decimal carbonResult = calculateCarbonFootprint(electricityVal, gasVal, carTravelVal, flightDistVal, meatVal, shoppingVal);
+        string[] suggestions = generateSuggestions(carTravelVal, electricityVal, flightDistVal, meatVal);
         
         return {
             success: true,
-            footprint: footprint.toString(),
+            carbonFootprint: carbonResult,
             unit: "kg CO₂",
             suggestions: suggestions,
-            timestamp: time:utcNow().toString()
+            timestamp: time:utcNow().toString(),
+            message: "Carbon footprint calculated successfully"
         };
     }
-}
 
-// Additional services for better code volume
-service /config on new http:Listener(9091) {
-    resource function get emission-factors() returns json {
+    // Emission factors endpoint - FIXED: No hyphens in function name
+    resource function get emissionFactors() returns json {
         return {
-            "carTravel": 0.21,
-            "electricity": 0.43,
-            "flights": 0.18,
-            "meatConsumption": 2.5,
-            "gasUsage": 0.2,
-            "shopping": 0.1
-        };
-    }
-}
-
-service /analytics on new http:Listener(9092) {
-    resource function get statistics() returns json {
-        return {
-            "totalCalculations": 150,
-            "averageFootprint": 89.7,
-            "mostCommonCategory": "shopping"
+            electricity: 0.43d,
+            gas: 0.2d,
+            carTravel: 0.21d,
+            flights: 0.18d,
+            meat: 2.5d,
+            shopping: 0.1d,
+            unit: "kg CO₂ per unit",
+            timestamp: time:utcNow().toString(),
+            note: "Standard emission factors for calculation"
         };
     }
 }
