@@ -1,102 +1,156 @@
-Eco AI Agent 🤖🌿
+# 🌱 Eco AI Agent
 
-A web-based Eco-AI Agent that calculates your personal carbon footprint and provides AI-generated, eco-friendly suggestions. Built with HTML, CSS, JavaScript, and a Ballerina backend for robust calculations.
+A sustainable carbon footprint calculator and environmental impact analyzer built with Ballerina and modern web technologies.
 
-🚀 Features
+![Ballerina](https://img.shields.io/badge/Ballerina-2201.7.0-000000?style=for-the-badge&logo=ballerina)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-Input your daily/weekly environmental habits (car travel, electricity, flights, meat consumption, gas usage, shopping) to calculate your carbon footprint.
+## ✨ Features
 
-Provides personalized suggestions to reduce emissions based on your highest-impact activities.
+- **Carbon Footprint Calculation** - Accurate CO₂ emissions calculations
+- **RESTful API** - Built with Ballerina for high performance
+- **Responsive Web Interface** - Modern HTML/CSS/JavaScript frontend
+- **Real-time Analytics** - Environmental impact insights
+- **Modular Architecture** - Scalable and maintainable codebase
 
-Smooth landing screen with gradient and background image overlay.
+## 🏗️ Architecture
 
-Ballerina backend integration for accurate carbon footprint calculations, with fallback client-side calculation if the backend is unavailable.
+```
+Eco AI Agent
+├── 📊 Backend (Ballerina)
+│   ├── REST API Endpoints
+│   ├── Carbon Calculation Engine
+│   └── Data Validation
+├── 🎨 Frontend (Vanilla JS)
+│   ├── Responsive UI
+│   ├── Form Handling
+│   └── API Integration
+└── 📚 Documentation
+    ├── Setup Guides
+    ├── API Documentation
+    └── Architecture Overview
+```
 
-Responsive design for mobile and desktop devices.
+## 🚀 Quick Start
 
-📋 Prerequisites
+### Prerequisites
+- Ballerina Swan Lake 2201.7.0+
+- Web browser with JavaScript support
+- Git
 
-Ballerina Swan Lake: Install the Ballerina
- programming language.
+### Installation
 
-Web Browser: Chrome, Edge, or Firefox for testing the web app.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/DilaknaH/Eco-Ai-Agent.git
+   cd eco-ai-agent
+   ```
 
-Optional: OpenAI API key if extending the app for AI-powered advice.
+2. **Run the backend server**
+   ```bash
+   cd backend/ballerina
+   bal run
+   ```
 
-⚙️ Setup Instructions
-1. Clone the Repository
-git clone https://github.com/DilaknaH/Eco-Ai-Agent.git
-cd Eco-Ai-Agent/frontend
+3. **Access the application**
+   - Backend API: http://localhost:9091/
+   - Frontend: Open `frontend/index.html` in your browser
 
-2. Run the Frontend
+### API Endpoints
 
-You can open the index.html file directly in a web browser for testing.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Welcome message |
+| `GET` | `/health` | Service health check |
+| `GET` | `/test` | Test endpoint |
+| `POST` | `/carbon-footprint` | Calculate carbon footprint |
 
-3. Run the Ballerina Backend (Optional)
+## 📁 Project Structure
 
-The app uses a Ballerina backend for calculations. To run:
+```
+eco-ai-agent/
+├── backend/
+│   └── ballerina/
+│       ├── main.bal              # Main service entry point
+│       ├── carbon_service.bal    # Carbon calculation logic
+│       ├── carbon_api.bal        # API route definitions
+│       ├── config.bal            # Configuration management
+│       ├── Ballerina.toml        # Project dependencies
+│       └── Config.toml           # Environment configuration
+├── frontend/
+│   ├── index.html                # Main application interface
+│   ├── style.css                 # Styling and responsive design
+│   └── script.js                 # Client-side functionality
+├── docs/
+│   ├── ARCHITECTURE.md           # System architecture
+│   └── SETUP.md                  # Setup instructions
+└── README.md                     # This file
+```
 
-cd ../backend
-bal run
+## 🛠️ Development
 
+### Building the Project
 
-The backend service runs at http://localhost:9090/ecoai/.
+```bash
+# Navigate to backend
+cd backend/ballerina
 
-4. Test the App
+# Build the project
+bal build
 
-Open the web page in a browser.
+# Run tests
+bal test
 
-Click Start on the landing screen.
+# Format code
+bal format
+```
 
-Enter your daily/weekly environmental data.
+### Adding New Features
 
-Click Calculate Footprint.
+1. Add new Ballerina services in `/backend/ballerina/`
+2. Update API endpoints in `carbon_api.bal`
+3. Extend frontend functionality in `/frontend/`
+4. Update documentation in `/docs/`
 
-The app will display your total estimated carbon footprint with suggestions.
+## 🌟 Key Technologies
 
-If the Ballerina backend is offline, a client-side fallback calculation will be used automatically.
+- **Ballerina** - Type-safe, cloud-native programming language
+- **Vanilla JavaScript** - Lightweight frontend without frameworks
+- **Modern CSS** - Responsive design with Flexbox/Grid
+- **REST Architecture** - Clean API design principles
 
-🔧 Configuration
+## 📊 Calculation Methodology
 
-If you want to customize the background image, edit the body CSS in style.css:
+The carbon footprint calculator uses industry-standard emission factors for:
+- 🚗 Transportation (car travel, flights)
+- 🏠 Energy consumption (electricity, gas)
+- 🍖 Food consumption (meat, produce)
+- 🛍️ Shopping and consumption
 
-body {
-    background: linear-gradient(135deg, rgba(11,61,38,0.85) 0%, rgba(26,107,69,0.85) 100%),
-                url("background.jpg") no-repeat center center fixed;
-    background-size: cover;
-}
+## 🤝 Contributing
 
+We welcome contributions! Please see our contributing guidelines:
 
-To adjust emission factors or suggestions, modify the JS file main.js:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-const carEmission = carKm * 0.12;
-const electricityEmission = electricity * 0.4;
-const flightEmission = flights * 250;
-const meatEmission = meat * 27;
-const gasEmission = gas * 0.2;
-const shoppingEmission = shopping * 0.1;
+## 📝 License
 
-💡 Usage
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Fill in your daily/weekly inputs for car distance, electricity, flights, meat, gas, and shopping.
+## 🆘 Support
 
-Click Calculate Footprint.
+- 📚 [Documentation](docs/)
+- 🐛 [Issue Tracker](https://github.com/DilaknaH/Eco-Ai-Agent/issues)
+- 💬 [Discussions](https://github.com/DilaknaH/Eco-Ai-Agent/discussions)
 
-Review your total carbon footprint and AI-generated suggestions.
+## 🙏 Acknowledgments
 
-Click Reset Form to start over.
-
-🖥️ Responsive Design
-
-Mobile-friendly layout with flexible form elements and buttons.
-
-Transparent content box overlays the background with blur effect for readability.
-
-⚠️ Notes
-
-The Ballerina backend must be running locally at http://localhost:9090/ecoai/ for backend calculations.
-
-If backend is unavailable, the app falls back to client-side calculation automatically.
-
-All animations (fade-in, fade-up) and landing page effects are handled via CSS.
+- Built with [Ballerina](https://ballerina.io/)
+- Emission factors based on industry research
+- Inspired by sustainable technology initiatives
 
