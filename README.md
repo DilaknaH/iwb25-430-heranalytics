@@ -1,6 +1,4 @@
-Here's the formatted README content for your GitHub repository:
 
-```markdown
 # 🌱 Eco AI Agent
 
 A sustainable carbon footprint calculator and environmental impact analyzer built with Ballerina and modern web technologies.
@@ -193,15 +191,4 @@ This project is licensed under the MIT License – see the LICENSE file for deta
 - Built with [Ballerina](https://ballerina.io/)
 - Emission factors based on industry research
 - Inspired by sustainable technology initiatives
-```
 
-This README includes:
-- Clear section headers with emojis
-- Proper code formatting
-- Table for API endpoints
-- File structure visualization
-- Configuration instructions
-- Contribution guidelines
-- All the technical details you provided
-
-You can copy this directly into your `README.md` file in your GitHub repository!
