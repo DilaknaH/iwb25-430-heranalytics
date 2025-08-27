@@ -1,0 +1,25 @@
+[package]
+org = "dilaknah"
+name = "eco_ai_agent"
+version = "0.1.0"
+
+[build-options]
+observabilityIncluded = true
+
+[dependencies]
+# MySQL database connector
+"ballerinax/mysql" = "1.10.0"
+"ballerinax/mysql.driver" = "1.10.0"
+
+# Ballerina standard library dependencies
+"ballerina/log" = "2.10.0"
+"ballerina/sql" = "1.13.0"
+"ballerina/regex" = "1.10.0"
+"ballerina/io" = "1.10.0"
+"ballerina/time" = "2.10.0"
+"ballerina/math" = "1.10.0"
+
+[container.image]
+name = "eco-ai-agent"
+tag = "latest"
+repo = "ecoaiagent"

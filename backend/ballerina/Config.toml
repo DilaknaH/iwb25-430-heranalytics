@@ -1,2 +1,11 @@
-# Server configuration
-server.port = 9090
+# Carbon API configuration
+CARBON_API_KEY = "your_carbon_interface_api_key_here"
+CARBON_API_URL = "https://api.carboninterface.com/v1"
+
+# Fallback settings
+USE_FALLBACK_CALCULATIONS = true
+FALLBACK_UPDATE_INTERVAL = 3600
+
+# Cache settings
+CACHE_TTL = 300
+MAX_CACHE_SIZE = 1000
