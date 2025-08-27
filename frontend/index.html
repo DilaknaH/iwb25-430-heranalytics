@@ -11,7 +11,6 @@
             font-family: Arial, sans-serif;
             color: white;
             text-align: center;
-            /* Background with both image and gradient fallback */
             background: linear-gradient(135deg, rgba(11, 61, 38, 0.85) 0%, rgba(26, 107, 69, 0.85) 100%), 
                         url("https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80") no-repeat center center fixed;
             background-size: cover;
@@ -23,7 +22,6 @@
             padding: 20px 0;
         }
 
-        /* Landing screen */
         .landing {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -65,7 +63,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* Overlay (hidden at first) */
         .overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -74,7 +71,6 @@
             display: none;
         }
 
-        /* Main content hidden initially */
         .main-content {
             display: none;
             position: relative;
@@ -158,7 +154,6 @@
             margin-top: 20px;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -182,6 +177,7 @@
             padding: 8px;
             border-radius: 5px;
             font-size: 0.9em;
+            display: none; /* Hide the backend status element */
         }
 
         .backend-online {
@@ -194,7 +190,6 @@
             color: #f44336;
         }
 
-        /* Result styling */
         .result-container {
             opacity: 0;
             animation: fadeIn 1s ease forwards;
@@ -214,7 +209,6 @@
             margin-top: 20px;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -309,7 +303,7 @@
             </div>
             
             <div id="backendStatus" class="backend-status backend-offline">
-                ⚠️ Ballerina backend: Checking connection...
+                <!-- This element is now hidden -->
             </div>
             
             <div id="result"></div>
@@ -363,15 +357,15 @@
                 });
 
                 if (response.ok) {
-                    statusElement.textContent = "✅ Ballerina backend: Connected and ready";
-                    statusElement.className = "backend-status backend-online";
+                    // Backend is available but we won't show status
+                    statusElement.style.display = 'none';
                 } else {
                     throw new Error('Backend not responding properly');
                 }
             } catch (error) {
                 console.error("Ballerina backend health check failed:", error);
-                statusElement.textContent = "⚠️ Ballerina backend: Not available (using fallback)";
-                statusElement.className = "backend-status backend-offline";
+                // Don't display any message about backend being unavailable
+                statusElement.style.display = 'none';
             }
         }
 
@@ -484,7 +478,7 @@
                     <div class="result-container">
                         <h3>🌍 Your Estimated Carbon Footprint: ${total} kg CO₂</h3>
                         <p>${suggestion}</p>
-                        <p><small>Note: Using client-side calculation (Ballerina backend temporarily unavailable)</small></p>
+                        <p><small>Note: Using client-side calculation</small></p>
                     </div>
                 `;
             } finally {
@@ -501,5 +495,3 @@
     </script>
 </body>
 </html>
-
-
