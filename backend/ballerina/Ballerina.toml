@@ -23,7 +23,7 @@ observabilityIncluded = true
 name = "eco-ai-agent"
 tag = "latest"
 repo = "ecoaiagent"
-=======
+
 [package]
 org = "dilaknah"
 name = "eco_ai_agent"
