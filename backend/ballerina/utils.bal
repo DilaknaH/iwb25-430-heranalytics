@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import ballerina/time;
 import ballerina/math;
 import ballerina/log;
@@ -346,4 +345,4 @@ public function filterArray(string[] arr, function (string) returns boolean pred
     }
     return result;
 }
->>>>>>> 979949ddeecd33b532679a470e425279ee65abc2
+
