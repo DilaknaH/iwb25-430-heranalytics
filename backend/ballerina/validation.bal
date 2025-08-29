@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import ballerina/regex;
 import ballerina/log;
 
@@ -286,4 +285,4 @@ public function validateJsonStructure(json data, string[] requiredFields) return
 function logDebug(string message) {
     log:printDebug("[VALIDATION] " + message);
 }
->>>>>>> 979949ddeecd33b532679a470e425279ee65abc2
+
