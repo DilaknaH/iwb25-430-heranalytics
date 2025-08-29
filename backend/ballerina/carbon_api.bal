@@ -267,8 +267,3 @@ service /carbon on new http:Listener(9092) {
             last_updated: time:utcToString(time:utcNow())
         };
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 979949ddeecd33b532679a470e425279ee65abc2
